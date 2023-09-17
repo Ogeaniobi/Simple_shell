@@ -19,6 +19,12 @@ void show_promptme(void);
 void get_input(char *input, size_t len);
 void exec_mycommand(const char *execute);
 
+int our_atoi(char *str);
+int our_exxit(info_t *exit);
+void our_environ(char **curr);
+void our_setenv(char **new);
+void our_unsetenv(char **rem)
+
 #define END_OF_FILE -2
 #define EXIT -3
 

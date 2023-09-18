@@ -19,11 +19,28 @@ void show_promptme(void);
 void get_input(char *input, size_t len);
 void exec_mycommand(const char *execute);
 
-int our_atoi(char *str);
+extern char **environ;
+
+typedef struct our_build
+{
+	char *value;
+	void (*cmd)(char **);
+}our_build;
+
+void int our_atoi(char *str);
 int our_exxit(info_t *exit);
 void our_environ(char **curr);
 void our_setenv(char **new);
-void our_unsetenv(char **rem)
+void our_unsetenv(char **rem);
+
+typedef void(*BuiltInCommand)(char **info);
+BuiltInCommand checkbuild(char **info);
+
+void our_putchar(char c);
+void our_puts (char *string);
+int our_strlen(char *len);
+char *our_strdup(const char *dup);
+char *our_conkatall(char *first, char *second, char *third);
 
 #define END_OF_FILE -2
 #define EXIT -3

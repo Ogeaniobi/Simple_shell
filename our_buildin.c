@@ -7,23 +7,28 @@
 */
 int our_atoi(char *str)
 {
-	int r, ngis = 1, result;
+	int r, ngis = 1, lagf, result;
+	unsigned int output = 0;
 
-	r = 0;
-	result = 0;
-	while (!((s[r] >= '0') && (s[i] <= '9')) && (s[r] != '\0'))
+	for (r = 0; str[r] != '\0' && lagf != 2; r++)
 	{
-		if (s[r] == '-')
-		{
-			ngis = ngis * (-1);
-		}
-		r++;
-	}
-	while ((s[r] >= '0') && (s[r] <= '9'))
+		if (str[r] == '-')
+			ngis *= -1;
+
+		if (str[r] >= '0' && str[r] <= '9')
 	{
-		result = (result * 10) + (sign * (s[r] - '0'));
-		i++;
+		lagf = 1;
+		output *= 10;
+		output += (str[r] - '0');
 	}
+		else if (lagf == 1)
+			lagf = 2;
+	}
+	
+	if (ngis == -1)
+		result = -output;
+	else
+		result = output;
 	return (result);
 }
 
@@ -32,26 +37,25 @@ int our_atoi(char *str)
  * @exit: Args format
  * Return: status exit
  */
-int our_exxit(info_t *exit)
+void our_exxit(char **exxit)
 {
-	int statusexxit;
+	int e, x;
 
-	if (exit->argv[1]
+	if (exxit[1])
+	
 	{
-	statusexxit = _erratoi(exit->argv[1]);
-	if (statusexxit == -1)
-	{
-		exit->status = 2;
-		print_error(exit, "Undefined Integer: ");
-		eputs(exit->argv[1]);
-		eputchar('\n');
-		return (1);
+	x  = atoi(exxit[1]);
+	if (x <= -1)
+	x = 2;
+	free(exxit);
+	exit(x);
 	}
-	exit->err_num = _erratoi(exit->argv[1]);
-	return (-2);
-	}
-	exit->err_num = -1;
-	return (-2);
+
+	for (e = 0; exxit[e]; e++)
+	free(exxit[e]);
+	free(exxit);
+	exit(0);
+
 }
 
 /**
@@ -59,10 +63,15 @@ int our_exxit(info_t *exit)
  * @current: Args
  * Return: Success (Always 0)
  */
-void our_environ(char **curr)
+void our_environ(char **curr __attribute__ ((unused)))
 {
-	print_list_str(curr->env);
-	return (0);
+	int e;
+
+	for (e = 0; environ[e]; e++)
+	{
+		puts(environ[e]);
+		puts("\n");
+	}
 }
 
 /**
@@ -71,16 +80,19 @@ void our_environ(char **curr)
  * Return: Success(Always 0)
  */
 
-void our_setenv(char **new)
+void our_setenv(char *new, char *set)
 {
-	if (new->argc != 3)
+	if (!new || !set)
+{
+	perror("our_setenv");
+	return (void);
+}
+	char result = setenv(new, set, 1);
+	
+	if (result != 0)
 	{
-		eputs("Unspeciafied urguement\n");
-		return (1);
+	perror("our_setenv");
 	}
-	if (setenv(new, new->argv[1], new->argv[2]))
-		return (1);
-	return (0);
 }
 
 /**
@@ -88,16 +100,18 @@ void our_setenv(char **new)
  * @rem: arg format
  * Return: Success 0
  */
-void our_unsetenv(char **rem)
+void our_unsetenv(char *set)
 {
-	int r;
-
-	if (rem->argc == 1)
+	if (!set)
 	{
-		eputs("Very less args:\n");
-		return (1);
+		perror("our_unsetenv");
+		return (void);
 	}
-	for (r = 1; r <= rem->argc; r++)
-		our_unsetenv(rem, rem->argv[i]);
-		return (0);
+
+	char output = unsetenv(set);
+
+	if (output != 0)
+	{
+		perror("our_unsetenv");
+	}
 }

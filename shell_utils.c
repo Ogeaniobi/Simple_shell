@@ -14,7 +14,7 @@ void our_putchar(char c)
  *our_puts - prints str input
  *@string: string format
  */
-void our_puts(char *string)
+int our_puts(char *string)
 {
 	int s = 0;
 

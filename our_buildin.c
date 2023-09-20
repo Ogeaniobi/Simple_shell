@@ -24,7 +24,7 @@ int our_atoi(char *str)
 		else if (lagf == 1)
 			lagf = 2;
 	}
-	
+
 	if (ngis == -1)
 		result = -output;
 	else
@@ -34,7 +34,7 @@ int our_atoi(char *str)
 
 /**
  * our_exxit - Shell exxit
- * @exit: Args format
+ * @exxit: Args format
  * Return: status exit
  */
 void our_exxit(char **exxit)
@@ -42,7 +42,6 @@ void our_exxit(char **exxit)
 	int e, x;
 
 	if (exxit[1])
-	
 	{
 	x  = atoi(exxit[1]);
 	if (x <= -1)
@@ -60,97 +59,76 @@ void our_exxit(char **exxit)
 
 /**
  * our_environ - Displays current environment
- * @current: Args
+ * @curr: Args
  * Return: Success (Always 0)
  */
+
+
 void our_environ(char **curr __attribute__ ((unused)))
 {
 	int e;
 
-	for (e = 0; environ[e]; e++)
+	for (e = 0; environment[e]; e++)
 	{
-		puts(environ[e]);
+		puts(environment[e]);
 		puts("\n");
 	}
 }
 
 /**
  * our_setenv - New environment Initialization
- * @rmv: Args format
+ * @set: Args format
  * Return: Success(Always 0)
  */
 
 void our_setenv(char **set)
 {
-        int c;
+	int a, b, c;
 
-	char *new_env_var = (char *)malloc(new_len + set_len + 2);
-
-        if (!set[0] || !set[1] || !set[2])
-        {
-                perror(getenv("_"));
-                return;
-        }
-
-	size_t new_len = strlen(set[1]);
-	size_t set_len = strlen(set[2]);
-
-        for (c = 0; environ[c]; c++)
-        {
-		if (strncmp(set[1], environ[c], new_len) == 0 && environ[c][new_len] == '=')
-        
-		char *new_env_var = (char *)malloc(new_len + set_len + 2);        
-                if (!new_env_var)
-                {
-			perror("malloc");
-			return;
-		}
-		strcpy(new_env_var, set[1]);
-		strcat(new_env_var, "=");
-		strcat(new_env_var, set[2]);		                }
-		environ[a] = new_env_var;
-		return;
-	}
-}
-char *new_env_var = (char *)malloc(new_len + set_len + 2);
-if (!new_env_var)
+	if (!set[1] || !set[2])
 	{
-	perror("malloc");
-	free(new_env_var);
+	perror(getenv("_"));
 	return;
 	}
-	strcpy(new_env_var, set[1]);
-	strcat(new_env_var, "=");
-	strcat(new_env_var, set[2]);
-	
-	int env_count = 0;
-	while (environ[env_count] != NULL)
+
+	for (a = 0; environment[a]; a++)
 	{
-	env_count++;
+		b = 0;
+		if (set[1][b] == environment[a][b])
+		{
+			while (set[1][b])
+			{
+				if (set[1][b] != environment[a][b])
+					break;
+
+				b++;
+			}
+			if (set[1][b] == '\0')
+			{
+				c = 0;
+				while (set[2][c])
+				{
+					environment[a][b + 1 + c] = set[2][c];
+					c++;
+				}
+				environment[a][b + 1 + c] = '\0';
+				return;
+			}
+		}
 	}
-char **new_environ = (char **)malloc((env_count + 2) * sizeof(char *));
-if (!new_environ)
-{
-perror("malloc");
-free(new_env_var);
-return;
-}
-for (int c = 0; c < env_count; c++)
-{
-	new_environ[c] = environ[c];
-}
-
-new_environ[env_count] = new_env_var;
-new_environ[env_count + 1} = NULL;
-
-environ = new_environ;
+	if (!environment[a])
+	{
+		environment[a] = concat_all(set[1], "=", set[2]);
+		environment[a + 1] = '\0';
+	}
 }
 
 /**
  * our_unsetenv - Deletes an environment variable
- * @rem: arg format
+ * @rmv: arg format
  * Return: Success 0
  */
+
 void our_unsetenv(char **rmv)
 {
 	int u, r;
@@ -158,32 +136,31 @@ void our_unsetenv(char **rmv)
 	if (!rmv[1])
 	{
 		perror(getenv("_"));
-		return (void);
+		return;
 	}
-	for (u = 0; environ[u]; u++)
+	for (u = 0; environment[u]; u++)
 	{
 		r = 0;
-		if (rmv[1][r] == environ[u][r])
+		if (rmv[1][r] == environment[u][r])
 		{
 		while (rmv[1][r])
 		{
-			if (rmv[1][r] != environ[u][r]
-				break;
-
-				r++;
+			if (rmv[1][r] != environment[u][r])
+			r++;
 		}
 		if (rmv[1][r] == '\0')
 		{
-			free(environ[u]);
-			environ[u] = environ[u + 1];
-			
-			while (environ[u])
+			free(environment[u]);
+			environment[u] = environment[u + 1];
+
+		while (environment[u])
 		{
-			environ[u] = environ[u + 1];
+			environment[u] = environment[u + 1];
 			u++;
 		}
-		return (void);
+		return;
 		}
 	}
 }
 }
+

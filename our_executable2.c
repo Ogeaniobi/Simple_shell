@@ -43,37 +43,34 @@ char **splitstring(char *split, const char *delim)
 		perror("our_getenv");
 		return (NULL);
 	}
-
 	if (copy == NULL)
 	{
 		perror("our_getenv");
-                free(array);
+		free(array);
 		return (NULL);
 	}
-
 	strcpy(copy, split);
-	
+
 while (token)
 {
-	if (s >= ss - 1) 
+if (s >= ss - 1)
 {
 	ss *= 2;
 	array = realloc(array, sizeof(char *) * ss);
 	if (array == NULL)
 	{
 		perror("our_getenv");
-                free(copy);
-                return (NULL);
+		free(copy);
+		return (NULL);
 	}
 }
 array[s] = strdup(token);
 token = strtok(NULL, delim);
 s++;
 }
-
 array[s] = NULL;
 free(copy);
-return array;
+return (array);
 }
 
 /**
@@ -100,16 +97,15 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 {
 	char *prev;
 	char *curr;
-
 	unsigned int r;
 
 	if (prv == NULL)
 	{
-	return malloc(curr_size);
+	return (malloc(curr_size));
 	}
 	else if (curr_size == prev_size)
 	{
-	return prv;
+	return (prv);
 	}
 	else if (curr_size == 0 && prv != NULL)
 	{
@@ -120,12 +116,10 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 	{
 	curr = malloc(curr_size);
 	prev = prv;
-
 	if (curr == NULL)
 	{
-	return NULL;
+	return (NULL);
 	}
-
 	if (curr_size > prev_size)
 	{
 	for (r = 0; r < prev_size; r++)
@@ -133,7 +127,7 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 	curr[r] = prev[r];
 	}
 	free(prv);
- 	for (r = prev_size; r < curr_size; r++)
+	for (r = prev_size; r < curr_size; r++)
 	{
 	curr[r] = '\0';
 	}
@@ -148,4 +142,3 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 	}
 	return (curr);
 	}
-}	

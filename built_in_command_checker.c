@@ -1,44 +1,35 @@
 #include "shell.h"
 
 /**
- * splitstring - String spillter
- * @split: splitted strng
- * @delimiter: xter to be split
- * Return: Pointers
- */
-
-char **splitstring(char *split, const char *delim);
-
-/**
- * checkbuild - status of buildin
+ *checkbuild - status of buildin
  * @info: Args format
  * Return: Pointer
  */
-void(*checkbuild(char **info)
+void (*checkbuild(char **info))(char **info)
 {
-	int x, e;
-	ourbuild T[] = {
+	int x = 0;
+	int e = 0;
+
+		ourbuild T[] = {
+		{"unsetenv", our_unsetenv},
 		{"exit", our_exxit},
 		{"env", our_environ},
 		{"setenv", our_setenv},
-		{"unsetenv", our_unsetenv},
 		{NULL, NULL}
 	};
 
-	x = 0;
-	while (T[x].value)
+	for (x = 0; T[x].value; x++)
 	{
-		e = 0;
 		if (T[x].value[e] == info[0][e])
 		{
-	while (T[x].value[e] && T[x].value[e] == info[0][e])
+		for (e = 0; info[0][e]; e++)
 		{
-		e++;
+			if (T[x].value[e] != info[0][e])
+				break;
 		}
 		if (!info[0][e])
 			return (T[x].cmd);
 		}
-		x++;
 	}
 	return (0);
 }

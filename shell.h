@@ -35,7 +35,8 @@ char **splitstring(char *split, const char *delim);
 void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
 void freearray(char **array);
 
-extern char **environ;
+
+extern char **environment;
 
 /**
  * struct our_build - Buildin cmd
@@ -46,16 +47,15 @@ typedef struct ourbuild
 {
 	char *value;
 	void (*cmd)(char **);
-}ourbuild;
+} ourbuild;
 
+void (*checkbuild(char **info))(char **info);
 
 int our_atoi(char *str);
 void our_exxit(char **exxit);
 void our_environ(char **curr __attribute__ ((unused)));
 void our_unsetenv(char **rmv);
 void our_setenv(char **set);
-
-void(*checkbuild(char **info));
 
 /**
  * struct list_path - Utilities list
@@ -80,7 +80,7 @@ char *our_getenv(const char *valoue);
 list_t *add_node_end(list_t **head, const char *add);
 list_t *linkpath(char *link);
 char *our_which(char *f_name, list_t *pointer);
-void free_list(list_t *list);
+void free_list(list_path *list);
 
 #define END_OF_FILE -2
 #define EXIT -3

@@ -18,7 +18,7 @@ void our_puts(char *string)
 {
 	int s = 0;
 
-	while(string[s])
+	while (string[s])
 	{
 		putchar(string[s]);
 		s++;
@@ -68,7 +68,7 @@ char *our_strdup(const char *dup)
 	{
 		return (NULL);
 	}
-	
+
 	while (r < s)
 	{
 	new[r] = dup[r];
@@ -90,7 +90,7 @@ char *our_strdup(const char *dup)
 char *our_conkatall(char *first, char *second, char *third)
 {
 	char *output;
-		int str1, str2, str3, c=0, p=0;
+	int str1, str2, str3, c = 0, p = 0;
 
 	str1 = strlen(first);
 	str2 = strlen(second);

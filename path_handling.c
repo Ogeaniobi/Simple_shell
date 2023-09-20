@@ -11,12 +11,12 @@
 char *our_getenv(const char *valoue)
 {
 	int g, e;
-	
+
 	g = 0;
-      	e = 0;
+	e = 0;
 
 	if (!valoue)
-        return (NULL);
+	return (NULL);
 
 	while (environ[g] != NULL)
 	{

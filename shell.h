@@ -4,6 +4,9 @@
 #ifndef MY_LIST_H
 #define MY_LIST_H
 
+#ifndef PATH_HANDLING_H
+#define PATH_HANDLING_H
+
 #include <stddef.h>
 #include <string.h>
 #include <signal.h>
@@ -28,21 +31,44 @@ void show_promptme(void);
 void get_input(char *input, size_t len);
 void exec_mycommand(const char *execute);
 
+char **splitstring(char *split, const char *delim);
+void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
+void freearray(char **array);
+
 extern char **environ;
 
-typedef struct our_build
+/**
+ * struct our_build - Buildin cmd
+ * @value: command
+ * @cmd: Building execution
+ */
+typedef struct ourbuild
 {
 	char *value;
 	void (*cmd)(char **);
-}our_build;
+}ourbuild;
+
 
 int our_atoi(char *str);
 void our_exxit(char **exxit);
 void our_environ(char **curr __attribute__ ((unused)));
-void our_unsetenv(char *set);
-void our_setenv(char *new, char *set);
+void our_unsetenv(char **rmv);
+void our_setenv(char **set);
 
-void(*checkbuild(char **info))(char **info);
+void(*checkbuild(char **info));
+
+/**
+ * struct list_path - Utilities list
+ * @dir: Path Directory
+ * @p: Represents pointer
+ */
+
+typedef struct list_path
+{
+	char *dir;
+	struct list_path *n;
+}list_path;
+
 
 void our_putchar(char c);
 void our_puts (char *string);
@@ -51,7 +77,7 @@ char *our_strdup(const char *dup);
 char *our_conkatall(char *first, char *second, char *third);
 
 char *our_getenv(const char *valoue);
-list_t *add_node_end(list_t **head, const char *add, int n);
+list_t *add_node_end(list_t **head, const char *add);
 list_t *linkpath(char *link);
 char *our_which(char *f_name, list_t *pointer);
 void free_list(list_t *list);
@@ -60,4 +86,5 @@ void free_list(list_t *list);
 #define EXIT -3
 
 #endif 
+#endif
 #endif

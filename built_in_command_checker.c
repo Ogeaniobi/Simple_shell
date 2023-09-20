@@ -1,14 +1,23 @@
 #include "shell.h"
 
 /**
+ * splitstring - String spillter
+ * @split: splitted strng
+ * @delimiter: xter to be split
+ * Return: Pointers
+ */
+
+char **splitstring(char *split, const char *delim);
+
+/**
  * checkbuild - status of buildin
  * @info: Args format
  * Return: Pointer
  */
-void(*checkbuild(char **info))(char **info)
+void(*checkbuild(char **info)
 {
 	int x, e;
-	our_build T[] = {
+	ourbuild T[] = {
 		{"exit", our_exxit},
 		{"env", our_environ},
 		{"setenv", our_setenv},

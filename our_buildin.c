@@ -76,23 +76,74 @@ void our_environ(char **curr __attribute__ ((unused)))
 
 /**
  * our_setenv - New environment Initialization
- * @new: Args format
+ * @rmv: Args format
  * Return: Success(Always 0)
  */
 
-void our_setenv(char *new, char *set)
+void our_setenv(char **set)
 {
-	if (!new || !set)
-{
-	perror("our_setenv");
-	return (void);
-}
-	char result = setenv(new, set, 1);
-	
-	if (result != 0)
-	{
-	perror("our_setenv");
+        int c;
+
+	char *new_env_var = (char *)malloc(new_len + set_len + 2);
+
+        if (!set[0] || !set[1] || !set[2])
+        {
+                perror(getenv("_"));
+                return;
+        }
+
+	size_t new_len = strlen(set[1]);
+	size_t set_len = strlen(set[2]);
+
+        for (c = 0; environ[c]; c++)
+        {
+		if (strncmp(set[1], environ[c], new_len) == 0 && environ[c][new_len] == '=')
+        
+		char *new_env_var = (char *)malloc(new_len + set_len + 2);        
+                if (!new_env_var)
+                {
+			perror("malloc");
+			return;
+		}
+		strcpy(new_env_var, set[1]);
+		strcat(new_env_var, "=");
+		strcat(new_env_var, set[2]);		                }
+		environ[a] = new_env_var;
+		return;
 	}
+}
+char *new_env_var = (char *)malloc(new_len + set_len + 2);
+if (!new_env_var)
+	{
+	perror("malloc");
+	free(new_env_var);
+	return;
+	}
+	strcpy(new_env_var, set[1]);
+	strcat(new_env_var, "=");
+	strcat(new_env_var, set[2]);
+	
+	int env_count = 0;
+	while (environ[env_count] != NULL)
+	{
+	env_count++;
+	}
+char **new_environ = (char **)malloc((env_count + 2) * sizeof(char *));
+if (!new_environ)
+{
+perror("malloc");
+free(new_env_var);
+return;
+}
+for (int c = 0; c < env_count; c++)
+{
+	new_environ[c] = environ[c];
+}
+
+new_environ[env_count] = new_env_var;
+new_environ[env_count + 1} = NULL;
+
+environ = new_environ;
 }
 
 /**
@@ -100,18 +151,39 @@ void our_setenv(char *new, char *set)
  * @rem: arg format
  * Return: Success 0
  */
-void our_unsetenv(char *set)
+void our_unsetenv(char **rmv)
 {
-	if (!set)
+	int u, r;
+
+	if (!rmv[1])
 	{
-		perror("our_unsetenv");
+		perror(getenv("_"));
 		return (void);
 	}
-
-	char output = unsetenv(set);
-
-	if (output != 0)
+	for (u = 0; environ[u]; u++)
 	{
-		perror("our_unsetenv");
+		r = 0;
+		if (rmv[1][r] == environ[u][r])
+		{
+		while (rmv[1][r])
+		{
+			if (rmv[1][r] != environ[u][r]
+				break;
+
+				r++;
+		}
+		if (rmv[1][r] == '\0')
+		{
+			free(environ[u]);
+			environ[u] = environ[u + 1];
+			
+			while (environ[u])
+		{
+			environ[u] = environ[u + 1];
+			u++;
+		}
+		return (void);
+		}
 	}
+}
 }

@@ -56,7 +56,7 @@ void (*f)(char **);
 signal(SIGINT, sig_handler);
 while (len != EOF)
 {
-	_isatty();
+	/*_isatty();*/
 	len = getline(&buff, &size, stdin);
 	_EOF(len, buff);
 	arv = splitstring(buff, " \n");
@@ -67,7 +67,7 @@ while (len != EOF)
 		value = our_getenv("PATH");
 		head = linkpath(value);
 		pathname = our_which(f_name[0], pointer);
-		f = checkbuild(info);
+		if = checkbuild(info);
 		if (f)
 		{
 			free(index);

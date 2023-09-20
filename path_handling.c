@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "path_handling.h"
 
 /**
  *our_getenv - string copy of our environmenr
@@ -9,17 +10,18 @@
 
 char *our_getenv(const char *valoue)
 {
-	if (!valoue)
-	return (NULL);
+	int g, e;
+	
+	g = 0;
+      	e = 0;
 
-	int g = 0;
+	if (!valoue)
+        return (NULL);
 
 	while (environ[g] != NULL)
 	{
 
-	int e = 0;
-
-	while (valoue[e] != '\0' && name[e] == environ[g][e])
+	while (valoue[e] != '\0' && valoue[e] == environ[g][e])
 	{
 	e++;
 	}
@@ -38,12 +40,12 @@ char *our_getenv(const char *valoue)
  * Return: No. of Nodes
  */
 
-list_t *add_node_end(list_t **head, const char *add, int n)
+list_path *add_node_end(list_path **head, char *add)
 {
+	list_path *new = malloc(sizeof(list_t));
+
 	if (!head || !add)
 		return (NULL);
-
-	list_t *new = malloc(sizeof(list_t));
 
 	if (!new)
 		return (NULL);
@@ -64,7 +66,7 @@ list_t *add_node_end(list_t **head, const char *add, int n)
 	}
 	else
 	{
-		list_t *tmp = *head;
+		list_path *tmp = *head;
 
 		while (tmp->)
 		{
@@ -82,13 +84,13 @@ list_t *add_node_end(list_t **head, const char *add, int n)
  * @link: path line
  * Return: List pointer
  */
-list_t *linkpath(char *link)
+list_path *linkpath(char *link)
 {
-	list_t *head = '\0';
+	list_path *head = '\0';
 	char *index;
 	char *clink = strdup(link);
 
-	index = strto(clink, ":");
+	index = strtok(clink, ":");
 	while (index)
 	{
 		head = add_node_end(&head, index);
@@ -105,7 +107,7 @@ list_t *linkpath(char *link)
  * @pointer: pointer to the head of linked list
  * Return: F. name | NULL
  */
-char *our_which(char *f_name, list_t *pointer)
+char *our_which(char *f_name, list_path *pointer)
 {
 	struct stat st;
 	char *path;
@@ -130,7 +132,7 @@ char *our_which(char *f_name, list_t *pointer)
  * free_list - frees linked list
  * @list: pointer to the list
  */
-void free_list(list_t *list)
+void free_list(list_path *list)
 {
 	list_path *container;
 

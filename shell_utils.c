@@ -14,13 +14,11 @@ void our_putchar(char c)
  *our_puts - prints str input
  *@string: string format
  */
-int our_puts(char *string)
+void our_puts(char *string)
 {
 	int s = 0;
 
-	if (!string)
-		return (0);
-	while (string[s] != '\0')
+	while(string[s])
 	{
 		putchar(string[s]);
 		s++;
@@ -51,27 +49,26 @@ int our_strlen(char *len)
 
 char *our_strdup(const char *dup)
 {
+	int s = 0;
+	int r = 0;
+	char *new = malloc(sizeof(char) * (s + 1));
+
 	if (!dup)
 	{
 	return (NULL);
 	}
-
-	int s = 0;
 
 	while (dup[s] != '\0')
 	{
 	s++;
 	}
 
-	char *new = malloc(sizeof(char) * (s + 1));
-
 	if (!new)
 
 	{
 		return (NULL);
 	}
-	int r = 0;
-
+	
 	while (r < s)
 	{
 	new[r] = dup[r];
@@ -92,8 +89,8 @@ char *our_strdup(const char *dup)
 
 char *our_conkatall(char *first, char *second, char *third)
 {
-	char *output
-		int str1, str2, str3, c, p;
+	char *output;
+		int str1, str2, str3, c=0, p=0;
 
 	str1 = strlen(first);
 	str2 = strlen(second);
@@ -101,8 +98,7 @@ char *our_conkatall(char *first, char *second, char *third)
 	output = malloc(str1 + str2 + str3 + 1);
 	if (!output)
 		return (NULL);
-	C = 0;
-	P = 0;
+
 	while (first[c])
 	{
 	output[p] = first[c];

@@ -1,0 +1,2 @@
+#!/bin/bash
+echo GOOD_MORNING $1

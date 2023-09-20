@@ -2,7 +2,7 @@
 
 /**
  * our_print - creates a function that prints the string
- * @my_shell: Print Variablr
+ * @my_shell: Print Variable
  * Return: Always (0)
  */
 

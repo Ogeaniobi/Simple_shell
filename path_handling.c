@@ -1,5 +1,4 @@
 #include "shell.h"
-#include "path_handling.h"
 
 /**
  *our_getenv - string copy of our environmenr
@@ -18,15 +17,15 @@ char *our_getenv(const char *valoue)
 	if (!valoue)
 	return (NULL);
 
-	while (environ[g] != NULL)
+	while (environment[g] != NULL)
 	{
 
-	while (valoue[e] != '\0' && valoue[e] == environ[g][e])
+	while (valoue[e] != '\0' && valoue[e] == environment[g][e])
 	{
 	e++;
 	}
 	if (valoue[e] == '\0')
-		return (environ[g] + e + 1);
+		return (environment[g] + e + 1);
 	g++;
 	}
 	return (NULL);
@@ -68,7 +67,7 @@ list_path *add_node_end(list_path **head, char *add)
 	{
 		list_path *tmp = *head;
 
-		while (tmp->)
+		while (tmp->n)
 		{
 			tmp = tmp->n;
 		}
@@ -116,13 +115,13 @@ char *our_which(char *f_name, list_path *pointer)
 
 	while (tmp)
 	{
-		path = concat_all(tmp->dir, "/", f_name);
+		path = our_conkatall(tmp->dir, "/", f_name);
 		if (stat(path, &st) == 0)
 	{
 		return (path);
 	}
 		free(path);
-		tmp = tmp->p;
+		tmp = tmp->n;
 	}
 
 	return (NULL);
@@ -138,7 +137,7 @@ void free_list(list_path *list)
 
 	while (list)
 	{
-		container = list->p;
+		container = list->n;
 		free(list->dir);
 		free(list);
 		list = container;

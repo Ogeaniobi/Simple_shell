@@ -118,7 +118,7 @@ void our_setenv(char **set)
 	}
 	if (!environment[a])
 	{
-		environment[a] = concat_all(set[1], "=", set[2]);
+		environment[a] = our_conkatall(set[1], "=", set[2]);
 		environment[a + 1] = '\0';
 	}
 }

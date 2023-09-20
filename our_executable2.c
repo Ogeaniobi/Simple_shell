@@ -36,7 +36,7 @@ char **splitstring(char *split, const char *delimiter)
 	int ss = 2;
 	char **array = malloc(sizeof(char *) * ss);
 	char *copy = malloc(strlen(split) + 1);
-	char *token = strtok(copy, delim);
+	char *token = strtok(copy, delimiter);
 
 	if (array == NULL)
 	{
@@ -65,7 +65,7 @@ if (s >= ss - 1)
 	}
 }
 array[s] = strdup(token);
-token = strtok(NULL, delim);
+token = strtok(NULL, delimiter);
 s++;
 }
 array[s] = NULL;

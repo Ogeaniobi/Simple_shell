@@ -33,7 +33,7 @@ typedef struct list_node
 void our_print(const char *my_shell);
 void show_promptme(void);
 void get_input(char *input, size_t len);
-void exec_mycommand(const char *execute);
+void execute(char **command);
 
 char **splitstring(char *split, const char *delim);
 void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
@@ -81,7 +81,7 @@ char *our_strdup(const char *dup);
 char *our_conkatall(char *first, char *second, char *third);
 
 char *our_getenv(const char *valoue);
-list_path *add_node_end(list_path **head, char *add);
+ilist_path *add_node_end(list_path **head, char *add, int n);
 list_path *linkpath(char *link);
 char *our_which(char *f_name, list_path *pointer);
 void free_list(list_path *list);

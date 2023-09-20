@@ -1,27 +1,26 @@
 #include "shell.h"
 /**
- * exec_mycommand - Executes commands
- *@execute: Command
+ * execute - Executes commands
+ *@command: Executable
  */
-void exec_mycommand(const char *execute)
+void execute(char **command)
 {
-	pid_t baby_pid = fork();
+	int e, period;
 
-	if (baby_pid == -1)
+	if (!command || !command[0])
+		return;
+	e = fork();
+	if (d == -1)
 	{
-		perror("fork");
+		perror(_getenv("_"));
+	}
+	if (e == 0)
+	{
+		execve(command[0], command, environment);
+		perror(command[0]);
 		exit(EXIT_FAILURE);
 	}
-	else if (baby_pid == 0)
-	{
-		execlp(execute, execute, (char *)NULL);
-		perror("execlp");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-	wait(NULL);
-	}
+		wait(&period);
 }
 
 /**

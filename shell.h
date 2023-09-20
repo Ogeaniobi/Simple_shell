@@ -19,8 +19,12 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdbool.h>
-
-typedef struct list_node 
+/**
+ * struct list_node - List of Nodes
+ * @data: parameter
+ * @next: Next pointer
+ */
+typedef struct list_node
 {
 	char *data;
 	struct list_node *next;
@@ -39,7 +43,7 @@ void freearray(char **array);
 extern char **environment;
 
 /**
- * struct our_build - Buildin cmd
+ * struct ourbuild - Buildin cmd
  * @value: command
  * @cmd: Building execution
  */
@@ -60,18 +64,18 @@ void our_setenv(char **set);
 /**
  * struct list_path - Utilities list
  * @dir: Path Directory
- * @p: Represents pointer
+ * @n: Represents pointer
  */
 
 typedef struct list_path
 {
 	char *dir;
 	struct list_path *n;
-}list_path;
+} list_path;
 
 
 void our_putchar(char c);
-void our_puts (char *string);
+void our_puts(char *string);
 int our_strlen(char *len);
 char *our_strdup(const char *dup);
 char *our_conkatall(char *first, char *second, char *third);
@@ -85,6 +89,6 @@ void free_list(list_path *list);
 #define END_OF_FILE -2
 #define EXIT -3
 
-#endif 
+#endif
 #endif
 #endif

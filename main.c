@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * our_isatty - Terminator
+ * _isatty - Terminator
  */
-void our_isatty(void)
+void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
 	puts("#GatesofShell$ ");
 }
 /**
- * our_EOF - Shows the end of a file
+ * _EOF - Shows the end of a file
  * @value: Length of Function
  * @buffer: BUFFER
  */
-void our_EOF(int value, char *buffer)
+void _EOF(int value, char *buffer)
 {
 	(void)buffer;
 	if (value == -1)
@@ -27,10 +27,10 @@ void our_EOF(int value, char *buffer)
 	}
 }
 /**
- * mysig_handler - Is Control Copy Preseed
+ * sig_handler - Is Control Copy Preseed
  * @mysignum: Interger
  */
-void mysig_handler(int mysignum)
+void sig_handler(int mysignum)
 {
 	if (mysignum == SIGINT)
 	{
@@ -46,8 +46,8 @@ int main(void)
 ssize_t size = 0;
 size_t len = 0;
 char *buffer = NULL, *name, *linkpath, **shell;
-list_path *pointer = '\0';
 void (*p)(char **);
+list_path *head = '\0';
 
 signal(SIGINT, mysig_handler);
 while (size != EOF)

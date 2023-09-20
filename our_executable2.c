@@ -24,13 +24,13 @@ void exec_mycommand(const char *execute)
 	}
 }
 
- /**
-   * splitstring - String spillter
-   * @split: splitted strng
-   * @delimiter: xter to be split
-   * Return: Pointers
-   */
-char **splitstring(char *split, const char *delim)
+/**
+ * splitstring - String spillter
+ * @split: splitted strng
+ * @delimiter: xter to be split
+ * Return: Pointers
+ */
+char **splitstring(char *split, const char *delimiter)
 {
 	int s = 0;
 	int ss = 2;
@@ -100,44 +100,35 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 	unsigned int r;
 
 	if (prv == NULL)
-	{
 	return (malloc(curr_size));
-	}
-	else if (curr_size == prev_size)
-	{
+
+	if (curr_size == prev_size)
 	return (prv);
-	}
-	else if (curr_size == 0 && prv != NULL)
+
+	if (curr_size == 0 && prv != NULL)
 	{
-	free(prv);
-	return (NULL);
+		free(prv);
+		return (NULL);
 	}
-	else
-	{
+
 	curr = malloc(curr_size);
 	prev = prv;
 	if (curr == NULL)
-	{
 	return (NULL);
-	}
+
 	if (curr_size > prev_size)
 	{
 	for (r = 0; r < prev_size; r++)
-	{
 	curr[r] = prev[r];
-	}
 	free(prv);
 	for (r = prev_size; r < curr_size; r++)
-	{
 	curr[r] = '\0';
 	}
-	}
-	else if (curr_size < prev_size)
+
+	if (curr_size < prev_size)
 	{
 	for (r = 0; r < curr_size; r++)
-	{
 	curr[r] = prev[r];
-	}
 	free(prv);
 	}
 	return (curr);

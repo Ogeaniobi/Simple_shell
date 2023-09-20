@@ -39,7 +39,7 @@ char *our_getenv(const char *valoue)
  * Return: No. of Nodes
  */
 
-list_path *add_node_end(list_path **head, char *add)
+list_path *add_node_end(list_path **head, char *add, int n)
 {
 	list_path *new = malloc(sizeof(list_t));
 

@@ -81,9 +81,9 @@ char *our_strdup(const char *dup);
 char *our_conkatall(char *first, char *second, char *third);
 
 char *our_getenv(const char *valoue);
-list_t *add_node_end(list_t **head, const char *add);
-list_t *linkpath(char *link);
-char *our_which(char *f_name, list_t *pointer);
+list_path *add_node_end(list_path **head, char *add);
+list_path *linkpath(char *link);
+char *our_which(char *f_name, list_path *pointer);
 void free_list(list_path *list);
 
 #define END_OF_FILE -2

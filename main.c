@@ -45,42 +45,42 @@ int main(void)
 {
 ssize_t size = 0;
 size_t len = 0;
-char *buffer = NULL, *name, *linkpath, **shell;
+char *buffer = NULL, *name, *p_name, **shell;
 void (*p)(char **);
 list_path *head = '\0';
 
-signal(SIGINT, mysig_handler);
+signal(SIGINT, sig_handler);
 while (size != EOF)
 {
-	isatty();
+	_isatty();
 	size = getline(&buffer, &len, stdin);
-	EOF(size, buffer);
+	_EOF(size, buffer);
 	shell = splitstring(buffer, " \n");
 	if (!shell || !shell[0])
 		execute(shell);
 	else
 	{
 		name = getenv("LINK");
-		pointer = linkpath(name);
-		linkpath = our_which(shell[0], pointer);
+		head = linkpath(name);
+		p_name = our_which(shell[0], head);
 		p = checkbuild(shell);
 		if (p)
 		{
 			free(buffer);
 			p(shell);
 		}
-		else if (!linkpath)
+		else if (!p_name)
 			execute(shell);
-		else if (linkpath)
+		else if (p_name)
 		{
 			free(shell[0]);
-			shell[0] = linkpath;
+			shell[0] = p_name;
 			execute(shell);
 		}
 	}
 }
-free_list(pointer);
-freeshell(shell);
+free(head);
+freearray(shell);
 free(buffer);
 return (0);
 }

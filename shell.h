@@ -40,7 +40,7 @@ void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
 void freearray(char **array);
 
 
-extern char **environment;
+extern char **environ;
 
 /**
  * struct ourbuild - Buildin cmd
@@ -81,7 +81,7 @@ char *our_strdup(const char *dup);
 char *our_conkatall(char *first, char *second, char *third);
 
 char *our_getenv(const char *valoue);
-ilist_path *add_node_end(list_path **head, char *add, int n);
+list_path *add_node_end(list_path **head, char *add);
 list_path *linkpath(char *link);
 char *our_which(char *f_name, list_path *pointer);
 void free_list(list_path *list);

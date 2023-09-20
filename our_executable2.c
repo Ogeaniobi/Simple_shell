@@ -10,13 +10,13 @@ void execute(char **command)
 	if (!command || !command[0])
 		return;
 	e = fork();
-	if (d == -1)
+	if (e == -1)
 	{
-		perror(_getenv("_"));
+		perror(getenv("_"));
 	}
 	if (e == 0)
 	{
-		execve(command[0], command, environment);
+		execve(command[0], command, environ);
 		perror(command[0]);
 		exit(EXIT_FAILURE);
 	}

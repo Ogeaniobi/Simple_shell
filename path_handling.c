@@ -17,15 +17,15 @@ char *our_getenv(const char *valoue)
 	if (!valoue)
 	return (NULL);
 
-	while (environment[g] != NULL)
+	while (environ[g] != NULL)
 	{
 
-	while (valoue[e] != '\0' && valoue[e] == environment[g][e])
+	while (valoue[e] != '\0' && valoue[e] == environ[g][e])
 	{
 	e++;
 	}
 	if (valoue[e] == '\0')
-		return (environment[g] + e + 1);
+		return (environ[g] + e + 1);
 	g++;
 	}
 	return (NULL);
@@ -39,7 +39,7 @@ char *our_getenv(const char *valoue)
  * Return: No. of Nodes
  */
 
-list_path *add_node_end(list_path **head, char *add, int n)
+list_path *add_node_end(list_path **head, char *add)
 {
 	list_path *new = malloc(sizeof(list_t));
 

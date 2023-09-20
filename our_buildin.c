@@ -68,9 +68,9 @@ void our_environ(char **curr __attribute__ ((unused)))
 {
 	int e;
 
-	for (e = 0; environment[e]; e++)
+	for (e = 0; environ[e]; e++)
 	{
-		puts(environment[e]);
+		puts(environ[e]);
 		puts("\n");
 	}
 }
@@ -91,14 +91,14 @@ void our_setenv(char **set)
 	return;
 	}
 
-	for (a = 0; environment[a]; a++)
+	for (a = 0; environ[a]; a++)
 	{
 		b = 0;
-		if (set[1][b] == environment[a][b])
+		if (set[1][b] == environ[a][b])
 		{
 			while (set[1][b])
 			{
-				if (set[1][b] != environment[a][b])
+				if (set[1][b] != environ[a][b])
 					break;
 
 				b++;
@@ -108,18 +108,18 @@ void our_setenv(char **set)
 				c = 0;
 				while (set[2][c])
 				{
-					environment[a][b + 1 + c] = set[2][c];
+					environ[a][b + 1 + c] = set[2][c];
 					c++;
 				}
-				environment[a][b + 1 + c] = '\0';
+				environ[a][b + 1 + c] = '\0';
 				return;
 			}
 		}
 	}
-	if (!environment[a])
+	if (!environ[a])
 	{
-		environment[a] = our_conkatall(set[1], "=", set[2]);
-		environment[a + 1] = '\0';
+		environ[a] = our_conkatall(set[1], "=", set[2]);
+		environ[a + 1] = '\0';
 	}
 }
 
@@ -138,24 +138,24 @@ void our_unsetenv(char **rmv)
 		perror(getenv("_"));
 		return;
 	}
-	for (u = 0; environment[u]; u++)
+	for (u = 0; environ[u]; u++)
 	{
 		r = 0;
-		if (rmv[1][r] == environment[u][r])
+		if (rmv[1][r] == environ[u][r])
 		{
 		while (rmv[1][r])
 		{
-			if (rmv[1][r] != environment[u][r])
+			if (rmv[1][r] != environ[u][r])
 			r++;
 		}
 		if (rmv[1][r] == '\0')
 		{
-			free(environment[u]);
-			environment[u] = environment[u + 1];
+			free(environ[u]);
+			environ[u] = environ[u + 1];
 
-		while (environment[u])
+		while (environ[u])
 		{
-			environment[u] = environment[u + 1];
+			environ[u] = environ[u + 1];
 			u++;
 		}
 		return;

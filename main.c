@@ -49,7 +49,7 @@ char *buffer = NULL, *name, *linkpath, **shell;
 void (*p)(char **);
 list_path *head = '\0';
 
-signal(SIGINT, mysig_handler);
+signal(SIGINT, sig_handler);
 while (size != EOF)
 {
 	isatty();
@@ -57,7 +57,7 @@ while (size != EOF)
 	EOF(size, buffer);
 	shell = splitstring(buffer, " \n");
 	if (!shell || !shell[0])
-		execute(shell);
+		execle(shell);
 	else
 	{
 		name = getenv("LINK");
@@ -70,12 +70,12 @@ while (size != EOF)
 			p(shell);
 		}
 		else if (!linkpath)
-			execute(shell);
+			execle(shell);
 		else if (linkpath)
 		{
 			free(shell[0]);
 			shell[0] = linkpath;
-			execute(shell);
+			execle(shell);
 		}
 	}
 }

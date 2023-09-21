@@ -57,7 +57,7 @@ while (size != EOF)
 	_EOF(size, buffer);
 	shell = splitstring(buffer, " \n");
 	if (!shell || !shell[0])
-		execle(shell);
+		execute(shell);
 	else
 	{
 		name = getenv("LINK");
@@ -69,23 +69,13 @@ while (size != EOF)
 			free(buffer);
 			p(shell);
 		}
-<<<<<<< HEAD
-		else if (!linkpath)
-			execle(shell);
-		else if (linkpath)
-		{
-			free(shell[0]);
-			shell[0] = linkpath;
-			execle(shell);
-=======
 		else if (!p_name)
 			execute(shell);
 		else if (p_name)
 		{
 			free(shell[0]);
 			shell[0] = p_name;
-			execute(shell);
->>>>>>> a5cf8c24742e32c7e93f19c8ee3c3d1e6c0be291
+		execute(shell);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
-	puts("#GatesofShell$ ");
+	puts("#cisfun$ ");
 }
 /**
  * _EOF - Shows the end of a file
@@ -34,7 +34,7 @@ void sig_handler(int mysignum)
 {
 	if (mysignum == SIGINT)
 	{
-	puts("\n#GatesOfShell$ ");
+	puts("\n#cisfun$ ");
 	}
 }
 /**

@@ -62,7 +62,7 @@ while (size != EOF)
 	{
 		name = getenv("LINK");
 		head = linkpath(name);
-		p_name = our_which(shell[0], head);
+		p_name = _which(shell[0], head);
 		p = checkbuild(shell);
 		if (p)
 		{
@@ -79,7 +79,7 @@ while (size != EOF)
 		}
 	}
 }
-free(head);
+free_list(head);
 freearray(shell);
 free(buffer);
 return (0);

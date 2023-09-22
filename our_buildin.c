@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
-*our_atoi - function that creates an integer from a strin
+*_atoi - function that creates an integer from a strin
 *@str: strngd pointer
 *Return: the result
 */
-int our_atoi(char *str)
+int _atoi(char *str)
 {
 	int r, ngis = 1, lagf, result;
 	unsigned int output = 0;
@@ -33,11 +33,11 @@ int our_atoi(char *str)
 }
 
 /**
- * our_exxit - Shell exxit
+ * _exxit - Shell exxit
  * @exxit: Args format
  * Return: status exit
  */
-void our_exxit(char **exxit)
+void _exxit(char **exxit)
 {
 	int e, x;
 
@@ -58,13 +58,13 @@ void our_exxit(char **exxit)
 }
 
 /**
- * our_environ - Displays current environment
+ * _env - Displays current environment
  * @curr: Args
  * Return: Success (Always 0)
  */
 
 
-void our_environ(char **curr __attribute__ ((unused)))
+void _env(char **curr __attribute__ ((unused)))
 {
 	int e;
 
@@ -76,12 +76,12 @@ void our_environ(char **curr __attribute__ ((unused)))
 }
 
 /**
- * our_setenv - New environment Initialization
+ * _setenv - New environment Initialization
  * @set: Args format
  * Return: Success(Always 0)
  */
 
-void our_setenv(char **set)
+void _setenv(char **set)
 {
 	int a, b, c;
 
@@ -118,18 +118,18 @@ void our_setenv(char **set)
 	}
 	if (!environ[a])
 	{
-		environ[a] = our_conkatall(set[1], "=", set[2]);
+		environ[a] = _concat_all(set[1], "=", set[2]);
 		environ[a + 1] = '\0';
 	}
 }
 
 /**
- * our_unsetenv - Deletes an environment variable
+ * _unsetenv - Deletes an environment variable
  * @rmv: arg format
  * Return: Success 0
  */
 
-void our_unsetenv(char **rmv)
+void _unsetenv(char **rmv)
 {
 	int u, r;
 

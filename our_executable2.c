@@ -1,13 +1,13 @@
 #include "shell.h"
 /**
  * execute - Executes commands
- *@command: Executable
+ *@arv: Executable
  */
-void execute(char **command)
+void execute(char **arv)
 {
 	int e, period;
 
-	if (!command || !command[0])
+	if (!arv || !arv[0])
 		return;
 	e = fork();
 	if (e == -1)
@@ -16,8 +16,8 @@ void execute(char **command)
 	}
 	if (e == 0)
 	{
-		execve(command[0], command, environ);
-		perror(command[0]);
+		execve(arv[0], arv, environ);
+		perror(arv[0]);
 		exit(EXIT_FAILURE);
 	}
 		wait(&period);
@@ -86,13 +86,13 @@ void freearray(char **array)
 }
 
 /**
- * our_realloc - Re-allocation of mmory
+ * _realloc - Re-allocation of mmory
  * @prv: last ponter before current
  * @prev_size: Size before
  * @curr_size: Current size
  * Return: New Size
  */
-void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
+void *_realloc(void *prv, unsigned int prev_size, unsigned int curr_size)
 {
 	char *prev;
 	char *curr;

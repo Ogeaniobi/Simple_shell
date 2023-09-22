@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- *our_getenv - string copy of our environmenr
+ *_getenv - string copy of our environmenr
  *@valoue: Global variable
  *Return: Valoue string
  *
  */
 
-char *our_getenv(const char *valoue)
+char *_getenv(const char *valoue)
 {
 	int g, e;
 
@@ -101,12 +101,12 @@ list_path *linkpath(char *link)
 }
 
 /**
- * our_which - Function that finds filename path
+ * _which - Function that finds filename path
  * @f_name: File name
  * @pointer: pointer to the head of linked list
  * Return: F. name | NULL
  */
-char *our_which(char *f_name, list_path *pointer)
+char *_which(char *f_name, list_path *pointer)
 {
 	struct stat st;
 	char *path;
@@ -115,7 +115,7 @@ char *our_which(char *f_name, list_path *pointer)
 
 	while (tmp)
 	{
-		path = our_conkatall(tmp->dir, "/", f_name);
+		path = _concat_all(tmp->dir, "/", f_name);
 		if (stat(path, &st) == 0)
 	{
 		return (path);

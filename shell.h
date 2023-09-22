@@ -26,17 +26,14 @@
  */
 typedef struct list_node
 {
-	char *data;
+	char *readfd;
 	struct list_node *next;
 } list_t;
 
-void our_print(const char *my_shell);
-void show_promptme(void);
-void get_input(char *input, size_t len);
 void execute(char **command);
 
 char **splitstring(char *split, const char *delim);
-void *our_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
+void *_realloc(void *prv, unsigned int prev_size, unsigned int curr_size);
 void freearray(char **array);
 
 
@@ -55,11 +52,11 @@ typedef struct ourbuild
 
 void (*checkbuild(char **info))(char **info);
 
-int our_atoi(char *str);
-void our_exxit(char **exxit);
-void our_environ(char **curr __attribute__ ((unused)));
-void our_unsetenv(char **rmv);
-void our_setenv(char **set);
+int _atoi(char *str);
+void _exxit(char **exxit);
+void _env(char **curr __attribute__ ((unused)));
+void _unsetenv(char **rmv);
+void _setenv(char **set);
 
 /**
  * struct list_path - Utilities list
@@ -73,17 +70,19 @@ typedef struct list_path
 	struct list_path *n;
 } list_path;
 
+int interact(list_t *arv);
+int our_delimiter(char n, char *delimiter);
+ int _isalpha(int arv);
+void _putchar(char c);
+void _puts(char *string);
+int _strlen(char *len);
+char *_strdup(const char *dup);
+char *_concat_all(char *first, char *second, char *third);
 
-void our_putchar(char c);
-void our_puts(char *string);
-int our_strlen(char *len);
-char *our_strdup(const char *dup);
-char *our_conkatall(char *first, char *second, char *third);
-
-char *our_getenv(const char *valoue);
+char *_getenv(const char *valoue);
 list_path *add_node_end(list_path **head, char *add);
 list_path *linkpath(char *link);
-char *our_which(char *f_name, list_path *pointer);
+char *_which(char *f_name, list_path *pointer);
 void free_list(list_path *list);
 
 #define END_OF_FILE -2

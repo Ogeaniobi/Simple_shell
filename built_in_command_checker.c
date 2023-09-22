@@ -11,10 +11,10 @@ void (*checkbuild(char **info))(char **info)
 	int e = 0;
 
 		ourbuild T[] = {
-		{"unsetenv", our_unsetenv},
-		{"exit", our_exxit},
-		{"env", our_environ},
-		{"setenv", our_setenv},
+		{"unsetenv", _unsetenv},
+		{"exit", _exxit},
+		{"env", _env},
+		{"setenv", _setenv},
 		{NULL, NULL}
 	};
 

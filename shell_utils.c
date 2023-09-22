@@ -1,20 +1,20 @@
 #include "shell.h"
 
 /**
- * our_putchar - writes a char to standard output
+ * _putchar - writes a char to standard output
  * @c: output string character
  * Return: Success(1), Error(-1)
  */
-void our_putchar(char c)
+void _putchar(char c)
 {
 	write(STDOUT_FILENO, &c, 1);
 }
 
 /**
- *our_puts - prints str input
+ *_puts - prints str input
  *@string: string format
  */
-void our_puts(char *string)
+void _puts(char *string)
 {
 	int s = 0;
 
@@ -26,11 +26,11 @@ void our_puts(char *string)
 }
 
 /**
- *our_strlen - returns string length
+ *_strlen - returns string length
  *@len: string parameter
  *Return: stringlength
  */
-int our_strlen(char *len)
+int _strlen(char *len)
 {
 	int l = 0;
 
@@ -42,12 +42,12 @@ int our_strlen(char *len)
 }
 
 /**
- *our_strdup - copies and duplicates astring
+ *_strdup - copies and duplicates astring
  *@dup: pointerto a duplicate string
  *Return: Duplicate
  */
 
-char *our_strdup(const char *dup)
+char *_strdup(const char *dup)
 {
 	int s = 0;
 	int r = 0;
@@ -80,14 +80,14 @@ char *our_strdup(const char *dup)
 }
 
 /**
- * our_conkatall - concates new allocated mmry
+ * _concat_all - concates new allocated mmry
  * @first: string 1
  * @second: string 2
  * @third: string 3
  * Return: new string pointer
  */
 
-char *our_conkatall(char *first, char *second, char *third)
+char *_concat_all(char *first, char *second, char *third)
 {
 	char *output;
 	int str1, str2, str3, c = 0, p = 0;

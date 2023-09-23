@@ -1,86 +1,134 @@
 #include "shell.h"
 
-/**
- * _isatty - Terminator
- */
-void _isatty(void)
-{
-	if (isatty(STDIN_FILENO))
-	puts("#cisfun$ ");
-}
-/**
- * _EOF - Shows the end of a file
- * @value: Length of Function
- * @buffer: BUFFER
- */
-void _EOF(int value, char *buffer)
-{
-	(void)buffer;
-	if (value == -1)
-	{
-	if (isatty(STDIN_FILENO))
-	{
-	puts("\n");
-	free(buffer);
-	}
-	exit(0);
-	}
-}
-/**
- * sig_handler - Is Control Copy Preseed
- * @mysignum: Interger
- */
-void sig_handler(int mysignum)
-{
-	if (mysignum == SIGINT)
-	{
-	puts("\n#cisfun$ ");
-	}
-}
-/**
- * main - Entry Point
- * Return: Success Always(0)
- */
-int main(void)
-{
-ssize_t size = 0;
-size_t len = 0;
-char *buffer = NULL, *name, *p_name, **shell;
-void (*p)(char **);
-list_path *head = '\0';
+void sig_handler(int sig);
+int execute(char **args, char **front);
 
-signal(SIGINT, sig_handler);
-while (size != EOF)
+/**
+ * sig_handler - This prints a new prompt upon a signal.
+ * @sig: Signal.
+ */
+void sig_handler(int sig)
 {
-	_isatty();
-	size = getline(&buffer, &len, stdin);
-	_EOF(size, buffer);
-	shell = splitstring(buffer, " \n");
-	if (!shell || !shell[0])
-		execute(shell);
+	char *new_prompt = "\n$ ";
+
+	(void)sig;
+	signal(SIGINT, sig_handler);
+	write(STDIN_FILENO, new_prompt, 3);
+}
+
+/**
+ * execute -This executes a command in a child process.
+ * @args: Array of arguments.
+ * @front: A double pointer to the beginning of args.
+ *
+ * Return: If any error occurs - a corresponding error code.
+ *         O/w - This exit value of the last executed command.
+ */
+int execute(char **args, char **front)
+{
+	pid_t child_pid;
+	int status, flag = 0, ret = 0;
+	char *command = args[0];
+
+	if (command[0] != '/' && command[0] != '.')
+	{
+		flag = 1;
+		command = get_location(command);
+	}
+
+	if (!command || (access(command, F_OK) == -1))
+	{
+		if (errno == EACCES)
+			ret = (create_error(args, 126));
+		else
+			ret = (create_error(args, 127));
+	}
 	else
 	{
-		name = getenv("LINK");
-		head = linkpath(name);
-		p_name = _which(shell[0], head);
-		p = checkbuild(shell);
-		if (p)
+		child_pid = fork();
+		if (child_pid == -1)
 		{
-			free(buffer);
-			p(shell);
+			if (flag)
+				free(command);
+			perror("Error child:");
+			return (1);
 		}
-		else if (!p_name)
-			execute(shell);
-		else if (p_name)
+		if (child_pid == 0)
 		{
-			free(shell[0]);
-			shell[0] = p_name;
-		execute(shell);
+			execve(command, args, environ);
+			if (errno == EACCES)
+				ret = (create_error(args, 126));
+			free_env();
+			free_args(args, front);
+			free_alias_list(aliases);
+			_exit(ret);
+		}
+		else
+		{
+			wait(&status);
+			ret = WEXITSTATUS(status);
 		}
 	}
+	if (flag)
+		free(command);
+	return (ret);
 }
-free_list(head);
-freearray(shell);
-free(buffer);
-return (0);
+
+/**
+ * main -This runs a simple UNIX command interpreter.
+ * @argc: Number of arguments supplied to the program.
+ * @argv: Array of pointers to the arguments.
+ *
+ * Return:Return value of the last executed command.
+ */
+int main(int argc, char *argv[])
+{
+	int ret = 0, retn;
+	int *exe_ret = &retn;
+	char *prompt = "$ ", *new_line = "\n";
+
+	name = argv[0];
+	hist = 1;
+	aliases = NULL;
+	signal(SIGINT, sig_handler);
+
+	*exe_ret = 0;
+	environ = _copyenv();
+	if (!environ)
+		exit(-100);
+
+	if (argc != 1)
+	{
+		ret = proc_file_commands(argv[1], exe_ret);
+		free_env();
+		free_alias_list(aliases);
+		return (*exe_ret);
+	}
+
+	if (!isatty(STDIN_FILENO))
+	{
+		while (ret != END_OF_FILE && ret != EXIT)
+			ret = handle_args(exe_ret);
+		free_env();
+		free_alias_list(aliases);
+		return (*exe_ret);
+	}
+
+	while (1)
+	{
+		write(STDOUT_FILENO, prompt, 2);
+		ret = handle_args(exe_ret);
+		if (ret == END_OF_FILE || ret == EXIT)
+		{
+			if (ret == END_OF_FILE)
+				write(STDOUT_FILENO, new_line, 1);
+			free_env();
+			free_alias_list(aliases);
+			exit(*exe_ret);
+		}
+	}
+
+	free_env();
+	free_alias_list(aliases);
+	return (*exe_ret);
 }

@@ -1,166 +1,121 @@
 #include "shell.h"
 
-/**
-*_atoi - function that creates an integer from a strin
-*@str: strngd pointer
-*Return: the result
-*/
-int _atoi(char *str)
-{
-	int r, ngis = 1, lagf, result;
-	unsigned int output = 0;
-
-	for (r = 0; str[r] != '\0' && lagf != 2; r++)
-	{
-		if (str[r] == '-')
-			ngis *= -1;
-
-		if (str[r] >= '0' && str[r] <= '9')
-	{
-		lagf = 1;
-		output *= 10;
-		output += (str[r] - '0');
-	}
-		else if (lagf == 1)
-			lagf = 2;
-	}
-
-	if (ngis == -1)
-		result = -output;
-	else
-		result = output;
-	return (result);
-}
+int shellby_env(char **args, char __attribute__((__unused__)) **front);
+int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
+int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 
 /**
- * _exxit - Shell exxit
- * @exxit: Args format
- * Return: status exit
+ * shellby_env -The function to print the current environment.
+ * @args: An array of arguments passed to the shell.
+ * @front: The double pointer to the beginning of args
+ * Return: If an error -1, 0 at success
  */
-void _exxit(char **exxit)
+int shellby_env(char **args, char __attribute__((__unused__)) **front)
 {
-	int e, x;
+	int sign;
+	char nc = '\n';
 
-	if (exxit[1])
+	if (!environ)
+		return (-1);
+
+	for (sign = 0; environ[sign]; sign++)
 	{
-	x  = atoi(exxit[1]);
-	if (x <= -1)
-	x = 2;
-	free(exxit);
-	exit(x);
+		write(STDOUT_FILENO, environ[sign], _strlen(environ[sign]));
+		write(STDOUT_FILENO, &nc, 1);
 	}
 
-	for (e = 0; exxit[e]; e++)
-	free(exxit[e]);
-	free(exxit);
-	exit(0);
-
+	(void)args;
+	return (0);
 }
 
 /**
- * _env - Displays current environment
- * @curr: Args
- * Return: Success (Always 0)
+ * shellby_setenv -The function that changes or adds an envr variable to the PATH
+ * @args:  An array of arguments passed to the shell.
+ * @front: The double pointer to the beginning of args
+ * Return: If error -1, 0 at success
  */
-
-
-void _env(char **curr __attribute__ ((unused)))
+int shellby_setenv(char **args, char __attribute__((__unused__)) **front)
 {
-	int e;
+	char **env_var = NULL, **new_environ, *new_value;
+	size_t size;
+	int sign;
 
-	for (e = 0; environ[e]; e++)
+	if (!args[0] || !args[1])
+		return (create_error(args, -1));
+
+	new_value = malloc(_strlen(args[0]) + 1 + _strlen(args[1]) + 1);
+	if (!new_value)
+		return (create_error(args, -1));
+	_strcpy(new_value, args[0]);
+	_strcat(new_value, "=");
+	_strcat(new_value, args[1]);
+
+	env_var = _getenv(args[0]);
+	if (env_var)
 	{
-		puts(environ[e]);
-		puts("\n");
+		free(*env_var);
+		*env_var = new_value;
+		return (0);
 	}
+	for (size = 0; environ[size]; size++)
+		;
+
+	new_environ = malloc(sizeof(char *) * (size + 2));
+	if (!new_environ)
+	{
+		free(new_value);
+		return (create_error(args, -1));
+	}
+
+	for (sign = 0; environ[sign]; sign++)
+		new_environ[sign] = environ[sign];
+
+	free(environ);
+	environ = new_environ;
+	environ[sign] = new_value;
+	environ[sign + 1] = NULL;
+
+	return (0);
 }
 
 /**
- * _setenv - New environment Initialization
- * @set: Args format
- * Return: Success(Always 0)
+ * shellby_unsetenv -The function that deletes an envr variable from the PATH
+ * @args:  An array of arguments passed to the shell.
+ * @front:The  double pointer to the beginning of args.
+ * Return: If error -1, 0 at success
  */
-
-void _setenv(char **set)
+int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
 {
-	int a, b, c;
+	char **env_var, **new_environ;
+	size_t size;
+	int sign, sign2;
 
-	if (!set[1] || !set[2])
-	{
-	perror(getenv("_"));
-	return;
-	}
+	if (!args[0])
+		return (create_error(args, -1));
+	env_var = _getenv(args[0]);
+	if (!env_var)
+		return (0);
 
-	for (a = 0; environ[a]; a++)
+	for (size = 0; environ[size]; size++)
+		;
+
+	new_environ = malloc(sizeof(char *) * size);
+	if (!new_environ)
+		return (create_error(args, -1));
+
+	for (sign = 0, sign2 = 0; environ[sign]; sign++)
 	{
-		b = 0;
-		if (set[1][b] == environ[a][b])
+		if (*env_var == environ[sign])
 		{
-			while (set[1][b])
-			{
-				if (set[1][b] != environ[a][b])
-					break;
-
-				b++;
-			}
-			if (set[1][b] == '\0')
-			{
-				c = 0;
-				while (set[2][c])
-				{
-					environ[a][b + 1 + c] = set[2][c];
-					c++;
-				}
-				environ[a][b + 1 + c] = '\0';
-				return;
-			}
+			free(*env_var);
+			continue;
 		}
+		new_environ[sign2] = environ[sign];
+		sign2++;
 	}
-	if (!environ[a])
-	{
-		environ[a] = _concat_all(set[1], "=", set[2]);
-		environ[a + 1] = '\0';
-	}
+	free(environ);
+	environ = new_environ;
+	environ[size - 1] = NULL;
+
+	return (0);
 }
-
-/**
- * _unsetenv - Deletes an environment variable
- * @rmv: arg format
- * Return: Success 0
- */
-
-void _unsetenv(char **rmv)
-{
-	int u, r;
-
-	if (!rmv[1])
-	{
-		perror(getenv("_"));
-		return;
-	}
-	for (u = 0; environ[u]; u++)
-	{
-		r = 0;
-		if (rmv[1][r] == environ[u][r])
-		{
-		while (rmv[1][r])
-		{
-			if (rmv[1][r] != environ[u][r])
-			r++;
-		}
-		if (rmv[1][r] == '\0')
-		{
-			free(environ[u]);
-			environ[u] = environ[u + 1];
-
-		while (environ[u])
-		{
-			environ[u] = environ[u + 1];
-			u++;
-		}
-		return;
-		}
-	}
-}
-}
-

@@ -29,7 +29,7 @@ int shellby_env(char **args, char __attribute__((__unused__)) **front)
 }
 
 /**
- * shellby_setenv -The function that changes or adds an envr variable to the PATH
+ * shellby_setenv -Function that changes or adds an envr variable to the PATH
  * @args:  An array of arguments passed to the shell.
  * @front: The double pointer to the beginning of args
  * Return: If error -1, 0 at success
